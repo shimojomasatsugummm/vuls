@@ -606,25 +606,29 @@ On the aggregation server, you can refer to the scanning result of each scan tar
 
 | Distribution|                            Scan Speed |       Need Root Privilege |      OVAL | Need Internet Access <br>on scan tareget|
 |:------------|:-------------------------------------:|:-------------------------:|:---------:|:---------------------------------------:|
-| CentOS      |                                  Slow |　                      No | Supported |                                    Need | 
-| RHEL        |                                  Slow |　                    Need | Supported |                                    Need |
-| Oracle      |                                  Slow |　                    Need | Supported |                                    Need |
+| CentOS      |1st time: Slow <br> From 2nd time: Fast|　                    Need | Supported |                                    Need | 
+| RHEL        |1st time: Slow <br> From 2nd time: Fast|　                    Need | Supported |                                    Need |
+| Oracle      |1st time: Slow <br> From 2nd time: Fast|　                    Need | Supported |                                    Need |
+| Amazon      |1st time: Slow <br> From 2nd time: Fast|　                    Need |        No |                                    Need |
 | Ubuntu      |1st time: Slow <br> From 2nd time: Fast|                      Need | Supported |                                    Need |
 | Debian      |1st time: Slow <br> From 2nd time: Fast|                      Need | Supported |                                    Need |
 | Raspbian    |1st time: Slow <br> From 2nd time: Fast|                      Need |        No |                                    Need |
 | FreeBSD     |                                  Fast |　                      No |        No |                                    Need |
-| Amazon      |                                  Slow |　                      No |        No |                                    Need |
 
 
-- On Ubuntu, Debian and Raspbian
-Vuls issues `apt-get changelog` for each upgradable packages and parse the changelog.  
-`apt-get changelog` is slow and resource usage is heavy when there are many updatable packages on target server.   
+- Ubuntu, Debian and Raspbian, RedHat, CentOS, Oracle Linux and Amazon Linux
+Vuls issues `apt-get changelog` or `yum changelog` for each upgradable package.
+`apt-get changelog` and `yum changelog` is slow and resource usage is heavy when there are many updatable packages on target server.   
 Vuls stores these changelogs to KVS([boltdb](https://github.com/boltdb/bolt)).  
 From the second time on, the scan speed is fast by using the local cache.
 
-- On CentOS
-Vuls issues `yum changelog` to get changelogs of upgradable packages at once and parse the changelog.  
-- On RHEL, Oracle, Amazon and FreeBSD
+- Ubuntu, Debian and Raspbian
+Parse the changelog to get the CVE-IDs.  
+
+- CentOS
+Parse the changelog to get the CVE-IDs.  
+
+- RHEL, Oracle Linux, Amazon Linuxand FreeBSD
 Detect CVE IDs by using package manager.
 
 ----
