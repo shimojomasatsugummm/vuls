@@ -92,7 +92,8 @@ func FillCveInfo(r *models.ScanResult) error {
 
 	util.Log.Infof("Fill CVE detailed information with OVAL")
 	if err := FillWithOval(r); err != nil {
-		return fmt.Errorf("Failed to fill OVAL information: %s", err)
+                util.Log.Debugf("Failed to fill OVAL information: %s", err)
+                return nil
 	}
 
 	util.Log.Infof("Fill CVE detailed information with CVE-DB")
